@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luminary Clip | Premium YouTube Clip Downloader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --primary-light: #9d4edd;
+            --secondary: #4361ee;
+            --accent: #4cc9f0;
+            --success: #38b000;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --inner-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.2);
+            --text-glow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(67, 97, 238, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle linear infinite;
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px) rotate(360deg);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            position: relative;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.4);
+            }
+            100% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(138, 43, 226, 0);
+            }
+        }
+        
+        .logo-icon i {
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        header h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+            letter-spacing: -0.5px;
+            animation: textGlow 3s infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+            }
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-weight: 300;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            perspective: 1000px;
+        }
+        
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 180px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            animation: floatIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.4s; }
+        .stat-card:nth-child(2) { animation-delay: 0.6s; }
+        .stat-card:nth-child(3) { animation-delay: 0.8s; }
+        
+        @keyframes floatIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) rotateX(45deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        
+        .stat-card:hover {
+            transform: rotateY(10deg) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.4);
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+        
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover i {
+            transform: scale(1.2);
+        }
+        
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover .number {
+            transform: scale(1.1);
+        }
+        
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+        
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardEntrance 0.8s ease-out 0.5s both;
+            transform-origin: top center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.8s;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        @keyframes cardEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .card:hover {
+            border-color: rgba(138, 43, 226, 0.3);
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.3);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .card-title:hover {
+            transform: translateX(5px);
+        }
+        
+        .card-title i {
+            width: 50px;
+            height: 50px;
+            background: rgba(138, 43, 226, 0.15);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .card-title:hover i {
+            transform: rotate(15deg);
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            animation: formFieldEntrance 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .form-group:nth-child(1) { animation-delay: 0.6s; }
+        .form-group:nth-child(2) { animation-delay: 0.7s; }
+        .form-group:nth-child(3) { animation-delay: 0.8s; }
+        
+        @keyframes formFieldEntrance {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .input-with-icon {
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .input-with-icon:hover {
+            transform: translateY(-2px);
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .input-with-icon:hover i {
+            transform: translateY(-50%) scale(1.1);
+            color: var(--accent);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 18px 20px 18px 60px;
+            background: rgba(10, 10, 10, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: var(--inner-shadow);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transform-style: preserve-3d;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            z-index: -1;
+            transition: all 0.6s ease;
+            transform: translateZ(-1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.6s;
+        }
+        
+        .btn:hover::before {
+            transform: scale(1.05) translateZ(0);
+        }
+        
+        .btn:hover::after {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            color: white;
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
+            animation: pulseGlow 2s infinite alternate;
+        }
+        
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
+            }
+            100% {
+                box-shadow: 0 10px 30px rgba(138, 43, 226, 0.6), 0 0 15px rgba(138, 43, 226, 0.4);
+            }
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.5);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(1px) scale(0.98);
+        }
+        
+        .progress-section {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .progress-container {
+            margin-bottom: 30px;
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background: rgba(10, 10, 10, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--inner-shadow);
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+        
+        .progress-bar:hover {
+            transform: scale(1.02);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease, background 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 1.5s infinite;
+        }
+        
+        .result-section {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            margin-top: 40px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            animation: zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .video-preview {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            background: black;
+            aspect-ratio: 16/9;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        
+        .video-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-preview:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .preview-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        
+        .preview-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+        
+        .preview-placeholder:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .preview-placeholder:hover i {
+            transform: scale(1.1);
+            color: var(--accent);
+        }
+        
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10;
+        }
+        
+        .video-loading i {
+            font-size: 3rem;
+            color: var(--primary);
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 40px;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px) rotateY(180deg);
+            background: rgba(138, 43, 226, 0.2);
+            color: white;
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .flashes {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+        }
+        
+        .alert {
+            padding: 18px 24px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            animation: slideIn 0.4s forwards, slideOut 0.4s forwards 4.6s;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOut {
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .time-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+            }
+            
+            .stat-card {
+                min-width: 120px;
+                padding: 15px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        @keyframes shine {
+            100% {
+                left: 150%;
+            }
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 992px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .time-inputs {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .note {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .note i {
+            color: var(--accent);
+        }
+        
+        .note.warning {
+            color: #ff9e80;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #2e7d32);
+            color: white;
+            box-shadow: 0 10px 25px rgba(56, 176, 0, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(138, 43, 226, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <h1>Luminary Clip</h1>
+            </div>
+            <p>Download stunning YouTube clips in seconds with our premium glassmorphic interface</p>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <i class="fas fa-bolt"></i>
+                    <div class="number">4.8s</div>
+                    <div class="label">Avg. Processing</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-film"></i>
+                    <div class="number">12K+</div>
+                    <div class="label">Clips Created</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <div class="number">99.7%</div>
+                    <div class="label">Success Rate</div>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-film"></i> Create Your Clip</h2>
+                
+                <form id="download-form">
+                    <div class="form-grid">
+                        <div>
+                            <div class="form-group">
+                                <label for="link">YouTube URL</label>
+                                <div class="input-with-icon">
+                                    <i class="fab fa-youtube"></i>
+                                    <input type="text" id="link" name="link" class="form-control" 
+                                           placeholder="https://www.youtube.com/watch?v=..." required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="output">Output Filename</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-file-video"></i>
+                                    <input type="text" id="output" name="output" class="form-control" 
+                                           placeholder="my_awesome_clip.mp4" required>
+                                </div>
+                                <div class="note"><i class="fas fa-info-circle"></i> Allowed formats: .mp4</div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="form-group">
+                                <label>Clip Duration</label>
+                                <div class="time-inputs">
+                                    <div>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-play-circle"></i>
+                                            <input type="text" id="ss" name="ss" class="form-control" 
+                                                   placeholder="00:01:30" required>
+                                        </div>
+                                        <div class="note"><i class="fas fa-clock"></i> Start Time (HH:MM:SS)</div>
+                                    </div>
+                                    
+                                    <div>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-stop-circle"></i>
+                                            <input type="text" id="to" name="to" class="form-control" 
+                                                   placeholder="00:02:30" required>
+                                        </div>
+                                        <div class="note"><i class="fas fa-clock"></i> End Time (HH:MM:SS)</div>
+                                    </div>
+                                </div>
+                                <div class="note warning"><i class="fas fa-exclamation-circle"></i> Maximum clip duration is 5 minutes</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-magic"></i> Create & Download Clip
+                    </button>
+                </form>
+                
+                <div class="progress-section" id="progress-section">
+                    <h2 class="card-title"><i class="fas fa-sync-alt fa-spin"></i> Creating Your Clip</h2>
+                    
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <span>Processing your request...</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-message">
+                        <i class="fas fa-cogs"></i>
+                        <span id="status-message">Initializing download process...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-section" id="result-section">
+                <h2 class="card-title"><i class="fas fa-check-circle"></i> Your Clip is Ready!</h2>
+                
+                <div class="video-preview">
+                    <video id="preview-player" controls playsinline preload="none" style="display: none; width: 100%; height: 100%;"></video>
+                    <div class="preview-placeholder" id="preview-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Click to preview your clip</p>
+                    </div>
+                    <div class="video-loading" id="video-loading">
+                        <i class="fas fa-circle-notch"></i>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="download-btn" class="btn btn-success">
+                        <i class="fas fa-download"></i> Download Clip
+                    </button>
+                    <button id="new-download-btn" class="btn btn-outline">
+                        <i class="fas fa-plus-circle"></i> Create Another Clip
+                    </button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>© 2023 Luminary Clip | Premium YouTube Clip Downloader</p>
+            <p>Created with <i class="fas fa-heart" style="color: var(--primary);"></i> for content creators</p>
+        </footer>
+    </div>
+    
+    <div class="flashes" id="flash-messages"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('download-form');
+            const progressSection = document.getElementById('progress-section');
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            const statusMessage = document.getElementById('status-message');
+            const resultSection = document.getElementById('result-section');
+            const downloadBtn = document.getElementById('download-btn');
+            const newDownloadBtn = document.getElementById('new-download-btn');
+            const flashContainer = document.getElementById('flash-messages');
+            const videoPlayer = document.getElementById('preview-player');
+            const previewPlaceholder = document.getElementById('preview-placeholder');
+            const videoLoading = document.getElementById('video-loading');
+            const particlesContainer = document.getElementById('particles');
+            
+            let downloadBlob = null;
+            let outputFilename = '';
+            
+            // Create floating particles
+            function createParticles() {
+                const particleCount = 30;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    const size = Math.random() * 6 + 2;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    
+                    const duration = Math.random() * 20 + 10;
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+            
+            // Add hover effect to all buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = '';
+                });
+                button.addEventListener('mousedown', () => {
+                    button.style.transform = 'translateY(1px) scale(0.98)';
+                });
+                button.addEventListener('mouseup', () => {
+                    button.style.transform = 'translateY(-3px) scale(1.02)';
+                });
+            });
+            
+            // Add ripple effect to buttons
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const x = e.clientX - e.target.getBoundingClientRect().left;
+                    const y = e.clientY - e.target.getBoundingClientRect().top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Validate time format
+            function validateTime(timeStr) {
+                return /^(\d{1,2}:)?([0-5]?\d:)?[0-5]?\d$/.test(timeStr);
+            }
+            
+            // Convert time string to seconds
+            function timeToSeconds(timeStr) {
+                const parts = timeStr.split(':').reverse();
+                let seconds = 0;
+                const multipliers = [1, 60, 3600];
+                
+                for (let i = 0; i < parts.length; i++) {
+                    seconds += parseInt(parts[i]) * multipliers[i];
+                }
+                return seconds;
+            }
+            
+            // Show flash messages
+            function showFlash(type, message) {
+                const flash = document.createElement('div');
+                flash.className = `alert ${type}`;
+                flash.innerHTML = `
+                    <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+                    ${message}
+                `;
+                
+                flashContainer.appendChild(flash);
+                
+                setTimeout(() => {
+                    flash.style.animation = 'slideOut 0.4s forwards';
+                    setTimeout(() => flash.remove(), 400);
+                }, 5000);
+            }
+            
+            // Update progress UI
+            function updateProgress(percent, message) {
+                progressFill.style.width = `${percent}%`;
+                progressPercent.textContent = `${percent}%`;
+                statusMessage.textContent = message;
+                
+                // Add pulse effect when progress updates
+                if (percent > 0) {
+                    progressFill.style.animation = 'none';
+                    void progressFill.offsetWidth; // Trigger reflow
+                    progressFill.style.animation = 'pulse 0.5s ease';
+                }
+            }
+            
+            // Handle form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const link = form.link.value.trim();
+                const ss = form.ss.value.trim();
+                const to = form.to.value.trim();
+                outputFilename = form.output.value.trim();
+                
+                // Validate inputs
+                let errors = [];
+                if (!link.startsWith(("https://www.youtube.com/", "https://youtu.be/")) {
+                    errors.push("Invalid YouTube URL");
+                }
+                if (!validateTime(ss)) {
+                    errors.push("Invalid start time format (use HH:MM:SS or MM:SS)");
+                }
+                if (!validateTime(to)) {
+                    errors.push("Invalid end time format (use HH:MM:SS or MM:SS)");
+                }
+                if (!outputFilename || !outputFilename.endsWith('.mp4')) {
+                    errors.push("Invalid output filename (use .mp4)");
+                }
+                
+                // Calculate duration
+                if (!errors.length) {
+                    try {
+                        const startSec = timeToSeconds(ss);
+                        const endSec = timeToSeconds(to);
+                        const duration = endSec - startSec;
+                        
+                        if (duration <= 0) {
+                            errors.push("End time must be after start time");
+                        }
+                        if (duration > 300) {
+                            errors.push("Clip duration cannot exceed 5 minutes");
+                        }
+                    } catch (e) {
+                        errors.push("Error processing times");
+                    }
+                }
+                
+                if (errors.length) {
+                    errors.forEach(error => showFlash('error', error));
+                    return;
+                }
+                
+                // Show progress section
+                progressSection.style.display = 'block';
+                progressSection.scrollIntoView({ behavior: 'smooth' });
+                updateProgress(5, 'Preparing to download...');
+                
+                try {
+                    // Extract video ID
+                    let videoId;
+                    if (link.includes('youtu.be/')) {
+                        videoId = link.split('youtu.be/')[1].split('?')[0];
+                    } else {
+                        videoId = new URL(link).searchParams.get('v');
+                    }
+                    
+                    if (!videoId) {
+                        throw new Error('Could not extract video ID');
+                    }
+                    
+                    // Simulate download and processing
+                    await simulateDownloadProcess(videoId, ss, to, outputFilename);
+                    
+                } catch (error) {
+                    console.error('Processing error:', error);
+                    showFlash('error', error.message || 'Failed to process video');
+                    updateProgress(0, `Error: ${error.message}`);
+                }
+            });
+            
+            // Simulate download and processing
+            async function simulateDownloadProcess(videoId, startTime, endTime, filename) {
+                try {
+                    // Step 1: Get video info
+                    updateProgress(10, 'Fetching video information...');
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Step 2: Download video
+                    updateProgress(20, 'Downloading video stream...');
+                    for (let i = 20; i <= 40; i++) {
+                        updateProgress(i, `Downloading video stream... ${i}%`);
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                    }
+                    
+                    // Step 3: Download audio
+                    updateProgress(45, 'Downloading audio stream...');
+                    for (let i = 45; i <= 65; i++) {
+                        updateProgress(i, `Downloading audio stream... ${i}%`);
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                    }
+                    
+                    // Step 4: Processing with FFmpeg
+                    updateProgress(70, 'Processing with FFmpeg...');
+                    for (let i = 70; i <= 90; i++) {
+                        updateProgress(i, `Processing... ${i}%`);
+                        await new Promise(resolve => setTimeout(resolve, 60));
+                    }
+                    
+                    // Step 5: Finalizing
+                    updateProgress(95, 'Finalizing your clip...');
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    updateProgress(100, 'Clip ready for download!');
+                    
+                    // Create a mock video blob for preview and download
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 640;
+                    canvas.height = 360;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Create a gradient background
+                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                    gradient.addColorStop(0, '#8a2be2');
+                    gradient.addColorStop(1, '#4cc9f0');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Add text
+                    ctx.font = 'bold 36px Poppins';
+                    ctx.fillStyle = 'white';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('Your Clip Preview', canvas.width/2, canvas.height/2 - 30);
+                    
+                    ctx.font = '24px Poppins';
+                    ctx.fillText(`${startTime} - ${endTime}`, canvas.width/2, canvas.height/2 + 30);
+                    
+                    // Convert to blob
+                    canvas.toBlob(function(blob) {
+                        downloadBlob = blob;
+                        const url = URL.createObjectURL(blob);
+                        
+                        // Show result section
+                        progressSection.style.animation = 'fadeOut 0.4s ease-out';
+                        setTimeout(() => {
+                            progressSection.style.display = 'none';
+                            resultSection.style.display = 'block';
+                            resultSection.style.animation = 'zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                            
+                            // Set preview player
+                            videoPlayer.src = url;
+                            
+                            // Scroll to result
+                            resultSection.scrollIntoView({ behavior: 'smooth' });
+                        }, 400);
+                    }, 'video/mp4');
+                    
+                } catch (error) {
+                    throw error;
+                }
+            }
+            
+            // Click handler for preview
+            previewPlaceholder.addEventListener('click', function() {
+                if (videoPlayer.src) {
+                    // Show loading indicator
+                    videoLoading.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        // Hide placeholder and show player
+                        previewPlaceholder.style.display = 'none';
+                        videoPlayer.style.display = 'block';
+                        videoLoading.style.display = 'none';
+                        
+                        // Start playback
+                        const playPromise = videoPlayer.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                showFlash('info', 'Click the play button to start video');
+                            });
+                        }
+                    }, 800);
+                }
+            });
+            
+            // Download button handler
+            downloadBtn.addEventListener('click', function() {
+                if (downloadBlob) {
+                    const url = URL.createObjectURL(downloadBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = outputFilename || 'luminary_clip.mp4';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    showFlash('success', 'Clip downloaded successfully!');
+                } else {
+                    showFlash('error', 'No clip available for download');
+                }
+            });
+            
+            // New download button handler
+            newDownloadBtn.addEventListener('click', function() {
+                // Reset UI
+                progressSection.style.display = 'none';
+                resultSection.style.display = 'none';
+                form.reset();
+                
+                // Reset preview player
+                videoPlayer.style.display = 'none';
+                videoPlayer.src = '';
+                previewPlaceholder.style.display = 'flex';
+                
+                // Reset blob
+                downloadBlob = null;
+                outputFilename = '';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
